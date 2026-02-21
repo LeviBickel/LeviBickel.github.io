@@ -5,11 +5,44 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
+    initTheme();
     initNavigation();
     initScrollAnimations();
     initSmoothScrolling();
     initActiveNavHighlight();
 });
+
+// ========================================
+// Dark Mode Theme Toggle
+// ========================================
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+
+    // Check for saved theme preference or default to light mode
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    htmlElement.setAttribute('data-theme', savedTheme);
+
+    // Toggle theme on button click
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Add a subtle animation effect
+            themeToggle.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'rotate(0deg)';
+            }, 300);
+        });
+
+        // Add smooth transition to the button
+        themeToggle.style.transition = 'transform 0.3s ease-in-out';
+    }
+}
 
 // ========================================
 // Mobile Navigation Toggle
